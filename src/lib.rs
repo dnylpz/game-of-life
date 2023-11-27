@@ -346,11 +346,11 @@ impl Universe {
         let offset = self.get_index(row, col);
         let mut row_offset: usize;
         let shape_size = shape_to_draw.width * shape_to_draw.height;
+        log!("Drawing: {}", shape);
         for i in 0..shape_size {
             row_offset = usize::try_from((self.width-shape_to_draw.width) * (i / shape_to_draw.width)).unwrap();
             let shape_idx = usize::try_from(i).unwrap();
             let univ_idx =  offset + shape_idx + row_offset;
-            log!("at idx: {} shape_cells: {:?}", i, shape_to_draw.cells[shape_idx]);
             self.cells.set(univ_idx, shape_to_draw.cells[shape_idx]);
         }
     }
