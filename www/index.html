@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Hello wasm-pack!</title>
+    <style>
+      body {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .main {
+        display:grid;
+        grid-template-columns: auto auto;
+      }
+      .controls {
+        margin: 10px;
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: 0.1fr;
+      } 
+      .buttons {
+        display: inline-block;
+        text-align: center;
+        padding: 10px;
+      }
+      .speedControl {
+        display: inline-block;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  
+  <body>
+    <noscript>This page contains webassembly and javascript content, please enable javascript in your browser.</noscript>
+    <div class="main">
+      <canvas id="game-of-life-canvas"></canvas>  
+      <div class="controls">
+        <div class="speedControl">
+          <input id="speed" type="range" value="0">
+          <label id="speedLabel">0</label>
+        </div>
+        <div class="butons">
+          <button type="button" class="btn btn-primary" id="play-pause"></button>
+          <button type="button" class="btn btn-primary" id="reset">Reset</button>
+          <button type="button" class="btn btn-primary" id="randomize">Randomize</button>
+        </div>
+        <div class="foldable">
+          <button id="fold_stills">stills</button>
+        </div>
+      </div>
+    </div>
+    <script src="./bootstrap.js"></script>
+  </body>
+</html>
