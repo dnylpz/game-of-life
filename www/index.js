@@ -18,6 +18,29 @@ const speedControl = document.getElementById("speed");
 const resetButton = document.getElementById("reset");
 const randomizeButton = document.getElementById("randomize");
 
+//brushes
+const brushLabel = document.getElementById("brushLabel")
+const brushes = [
+    document.getElementById("dot"),
+    document.getElementById("box"),
+    document.getElementById("beeHive"),
+    document.getElementById("loaf"),
+    document.getElementById("boat"),
+    document.getElementById("tub"),
+    document.getElementById("blinker"),
+    document.getElementById("toad"),
+    document.getElementById("beacon"),
+    document.getElementById("pulsar"),
+    document.getElementById("pentadeca"),
+    document.getElementById("glider"),
+    document.getElementById("lwss"),
+    document.getElementById("mwss"),
+    document.getElementById("glidergen")
+]
+
+
+let shape = "dot"
+
 canvas.height = (CELL_SIZE + 1) * height +1;
 canvas.width =  (CELL_SIZE + 1) * height +1;
 
@@ -50,6 +73,18 @@ playPauseButton.addEventListener("click", event => {
     }
 });
 
+let selectBrush = (event) => {
+    brushLabel.textContent = `Selected: ${event.target.textContent}`
+    shape = event.target.id.toLowerCase()
+    console.log(shape)
+}
+
+for (const brush of brushes) {
+    brush.addEventListener("click", selectBrush)
+}
+
+
+
 
 canvas.addEventListener("click", e => {
     const boundingRect = canvas.getBoundingClientRect();
@@ -62,8 +97,12 @@ canvas.addEventListener("click", e => {
     
     const row = Math.min(Math.floor(canvasTop /(CELL_SIZE + 1)), height -1 );
     const col = Math.min(Math.floor(canvasLeft / (CELL_SIZE + 1)), width -1);
-
-    universe.toggle_cell(row, col);
+    if (shape === "dot") {
+        universe.toggle_cell(row, col);
+    }
+    else {
+        universe.draw_shape(row, col, shape);
+    }
 
     drawGrid();
     drawCells();

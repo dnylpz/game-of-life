@@ -22,8 +22,8 @@
       .controls {
         margin: 10px;
         display: grid;
-        grid-template-columns: auto;
-        grid-template-rows: 0.1fr;
+        grid-template-columns: 100%;
+        grid-template-rows: 0.1fr 0.1fr 0.4fr;
       } 
       .buttons {
         display: inline-block;
@@ -36,7 +36,6 @@
       }
     </style>
   </head>
-  
   <body>
     <noscript>This page contains webassembly and javascript content, please enable javascript in your browser.</noscript>
     <div class="main">
@@ -51,8 +50,70 @@
           <button type="button" class="btn btn-primary" id="reset">Reset</button>
           <button type="button" class="btn btn-primary" id="randomize">Randomize</button>
         </div>
-        <div class="foldable">
-          <button id="fold_stills">stills</button>
+        <div class="brushes-container">
+          <label id="brushLabel">Selected: dot</label>
+          <div class="brushes accordion accordion-flush" id="brushes">
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#stillShapesCollapse" aria-expanded="false" aria-controls="stillShapesCollapse">
+                  Still Shapes
+                </button>
+              </h2>
+              <div id="stillShapesCollapse" class="accordion-collapse collapse" data-bs-parent="#brushes">
+                <div class="accordion-body">
+                  <button id="dot" class="btn btn-primary" type="button">Dot</button>
+                  <button id="box" class="btn btn-primary" type="button">Box</button>
+                  <button id="beeHive" class="btn btn-primary" type="button">Bee Hive</button>
+                  <button id="loaf" class="btn btn-primary" type="button">Loaf</button>
+                  <button id="boat" class="btn btn-primary" type="button">Boat</button>
+                  <button id="tub" class="btn btn-primary" type="button">Tub</button>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#oscilatorShapesCollapse" aria-expanded="false" aria-controls="oscilatorShapesCollapse">
+                  Oscillators
+                </button>
+              </h2>
+              <div id="oscilatorShapesCollapse" class="accordion-collapse collapse" data-bs-parent="#brushes">
+                <div class="accordion-body">
+                  <button id="blinker" class="btn btn-primary">Blinker</button>
+                  <button id="toad" class="btn btn-primary">Toad</button>
+                  <button id="beacon" class="btn btn-primary">Beacon</button>
+                  <button id="pulsar" class="btn btn-primary">Pulsar</button>
+                  <button id="pentadeca" class="btn btn-primary">Penta-Decathlon</button>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#shipShapesCollapse" aria-expanded="false" aria-controls="shipShapesCollapse">
+                  SpaceShips & Gliders
+                </button>
+              </h2>
+              <div id="shipShapesCollapse" class="accordion-collapse collapse" data-bs-parent="brushes">
+                <div class="accordion-body">
+                  <button id="glider" class="btn btn-primary">Glider</button>
+                  <button id="lwss" class="btn btn-primary">Light Weight Spaceship</button>
+                  <button id="mwss" class="btn btn-primary">Medium Weight Spaceship</button>
+                  <button id="hwss" class="btn btn-primary">Heavy Weight Spaceship</button>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#generatorShapesCollapse" aria-expanded="false" aria-controls="generatorShapesCollapse">
+                  Glider Generator
+                </button>
+              </h2>
+              <div id="generatorShapesCollapse" class="accordion-collapse collapse" data-bs-parent="brushes">
+                <div class="accordion-body">
+                  <button id="glidergen" class="btn btn-primary">Glider Generator</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

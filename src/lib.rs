@@ -21,10 +21,205 @@ pub struct Universe {
     cells: FixedBitSet
 }
 
+struct Shape {
+    width: u32,
+    height: u32,
+    cells: FixedBitSet
+}
+
+enum AvailableShapes {
+    Square,
+    Beehive,
+    Loaf,
+    Boat,
+    Tub,
+    Blinker,
+    Toad,
+    Beacon,
+    Pulsar,
+    PentaDeca,
+    Glider,
+    Lwss,
+    Mwss,
+    Hwss,
+    GliderGen
+}
+
+
+fn get_index(row: usize, col: usize, width: usize) -> usize {
+    ((row*width) + col) as usize
+}
+
+fn set_cells(height: usize, width: usize, shape: Vec<Vec<u32>>, cells: &mut FixedBitSet ) {
+    for row in 0..height{
+        for col in 0..width {
+            cells.set(get_index(row,col, width), shape[row][col] != 0);
+        }
+    }
+}
+impl Shape {
+    pub fn new(shape_name: AvailableShapes) -> Shape {
+        let width: usize;
+        let height: usize;
+        let mut cells: FixedBitSet;
+        let shape: Vec<Vec<u32>>;
+        match shape_name  {
+            AvailableShapes::Square => {
+                shape = vec![
+                    vec![1,1],
+                    vec![1,1]
+                ];
+            },
+            AvailableShapes::Beehive => {
+                shape = vec![
+                    vec![0,0,1,1,0,0],
+                    vec![0,1,0,0,1,0],
+                    vec![0,0,1,1,0,0],
+                ];
+            },
+            AvailableShapes::Loaf => {
+                shape = vec![
+                    vec![0,0,1,1,0,0],
+                    vec![0,1,0,0,1,0],
+                    vec![0,0,1,0,1,0],
+                    vec![0,0,0,1,0,0]
+                ];
+            },
+            AvailableShapes::Boat => {
+                shape = vec![
+                    vec![0,1,1,0,0],
+                    vec![0,1,0,1,0],
+                    vec![0,0,1,0,0]
+                ];
+            },
+            AvailableShapes::Tub => {
+                shape = vec![
+                    vec![0,0,1,0,0],
+                    vec![0,1,0,1,0],
+                    vec![0,0,1,0,0]
+                ];
+            }
+            AvailableShapes::Blinker => {
+                shape = vec![
+                    vec![1],
+                    vec![1],
+                    vec![1]
+                ]
+            }
+            AvailableShapes::Toad => {
+                shape = vec![
+                    vec![0,0,1,0],
+                    vec![1,0,0,1],
+                    vec![1,0,0,1],
+                    vec![0,1,0,0]
+                ];
+            }
+            AvailableShapes::Beacon => {
+                shape = vec![
+                    vec![1,1,0,0],
+                    vec![1,1,0,0],
+                    vec![0,0,1,1],
+                    vec![0,0,1,1]
+                ];
+            }
+            AvailableShapes::Pulsar => {
+                shape = vec![
+                    vec![0,0,1,1,1,0,0,0,1,1,1,0,0],
+                    vec![0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    vec![1,0,0,0,0,1,0,1,0,0,0,0,1],
+                    vec![1,0,0,0,0,1,0,1,0,0,0,0,1],
+                    vec![1,0,0,0,0,1,0,1,0,0,0,0,1],
+                    vec![0,0,1,1,1,0,0,0,1,1,1,0,0],
+                    vec![0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    vec![0,0,1,1,1,0,0,0,1,1,1,0,0],
+                    vec![1,0,0,0,0,1,0,1,0,0,0,0,1],
+                    vec![1,0,0,0,0,1,0,1,0,0,0,0,1],
+                    vec![1,0,0,0,0,1,0,1,0,0,0,0,1],
+                    vec![0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    vec![0,0,1,1,1,0,0,0,1,1,1,0,0]
+                ]
+            }
+            AvailableShapes::PentaDeca => {
+                shape = vec![
+                    vec![0,0,0,1,1,1,0,0,0],
+                    vec![0,0,1,0,0,0,1,0,0],
+                    vec![0,1,0,0,0,0,0,1,0],
+                    vec![0,0,0,0,0,0,0,0,0],
+                    vec![1,0,0,0,0,0,0,0,1],
+                    vec![1,0,0,0,0,0,0,0,1],
+                    vec![0,0,0,0,0,0,0,0,0],
+                    vec![0,1,0,0,0,0,0,1,0],
+                    vec![0,0,1,0,0,0,1,0,0],
+                    vec![0,0,0,1,1,1,0,0,0]
+                ];
+            }
+            AvailableShapes::Glider => {
+                shape = vec![
+                    vec![0,0,1],
+                    vec![1,0,1],
+                    vec![0,1,1]
+                ]
+            }
+            AvailableShapes::Lwss => {
+                shape = vec![
+                    vec![0,1,1,1,1],
+                    vec![1,0,0,0,1],
+                    vec![0,0,0,0,1],
+                    vec![1,0,0,1,0]
+                ]
+            }
+            AvailableShapes::Mwss => {
+                shape = vec![
+                    vec![0,0,1,0,0,0],
+                    vec![1,0,0,0,1,0],
+                    vec![0,0,0,0,0,1],
+                    vec![1,0,0,0,0,1],
+                    vec![0,1,1,1,1,1]
+                ]
+            }
+            AvailableShapes::Hwss => {
+                shape = vec![
+                    vec![0,0,1,1,0,0,0],
+                    vec![1,0,0,0,0,1,0],
+                    vec![0,0,0,0,0,0,1],
+                    vec![1,0,0,0,0,0,1],
+                    vec![0,1,1,1,1,1,1],
+
+                ]
+            }
+            AvailableShapes::GliderGen => {
+                shape = vec![
+                    vec![0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
+                    vec![0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0],
+                    vec![0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+                    vec![0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+                    vec![1,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    vec![1,1,0,0,0,0,0,0,0,0,1,0,0,0,1,0,1,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0],
+                    vec![0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
+                    vec![0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    vec![0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+                ]
+            }
+        }
+        width = shape[0].len();
+        height = shape.len();
+        let size = width*height;
+        cells = FixedBitSet::with_capacity(size);
+        set_cells(height, width, shape, &mut cells);
+        Shape {
+            width: width as u32,
+            height: height as u32,
+            cells
+        }
+    }
+}
+
+
+
 #[wasm_bindgen]
 impl Universe {
     fn get_index(&self, row: u32, column: u32) -> usize {
-        (row * self.width + column ) as usize
+        (row * self.width + column) as usize
     }
 
     fn live_neighbot_count(&self, row: u32, column: u32) -> u8 {
@@ -126,6 +321,37 @@ impl Universe {
         self.reset();
         for i in 0..(self.width * self.height) {
             self.cells.set(usize::try_from(i).unwrap(), js_sys::Math::random() < 0.5 );
+        }
+    }
+
+    pub fn draw_shape(&mut self, row: u32, col: u32, shape: &str) {
+        let shape_to_draw = match shape {
+            "box" => Shape::new(AvailableShapes::Square),
+            "beehive" => Shape::new(AvailableShapes::Beehive),
+            "loaf" => Shape::new(AvailableShapes::Loaf),
+            "boat" => Shape::new(AvailableShapes::Boat),
+            "tub" => Shape::new(AvailableShapes::Tub),
+            "blinker" => Shape::new(AvailableShapes::Blinker),
+            "toad" => Shape::new(AvailableShapes::Toad),
+            "beacon" => Shape::new(AvailableShapes::Beacon),
+            "pulsar" => Shape::new(AvailableShapes::Pulsar),
+            "pentadeca" => Shape::new(AvailableShapes::PentaDeca),
+            "glider" => Shape::new(AvailableShapes::Glider),
+            "lwss" => Shape::new(AvailableShapes::Lwss),
+            "mwss" => Shape::new(AvailableShapes::Mwss),
+            "hwss" => Shape::new(AvailableShapes::Hwss),
+            "glidergen" => Shape::new(AvailableShapes::GliderGen),
+            _ => todo!()
+        };
+        let offset = self.get_index(row, col);
+        let mut row_offset: usize;
+        let shape_size = shape_to_draw.width * shape_to_draw.height;
+        for i in 0..shape_size {
+            row_offset = usize::try_from((self.width-shape_to_draw.width) * (i / shape_to_draw.width)).unwrap();
+            let shape_idx = usize::try_from(i).unwrap();
+            let univ_idx =  offset + shape_idx + row_offset;
+            log!("at idx: {} shape_cells: {:?}", i, shape_to_draw.cells[shape_idx]);
+            self.cells.set(univ_idx, shape_to_draw.cells[shape_idx]);
         }
     }
 
