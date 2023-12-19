@@ -5,6 +5,8 @@ use wasm_bindgen::prelude::*;
 
 use std::convert::TryFrom;
 extern crate js_sys;
+extern crate web_sys;
+use web_sys::console;
 extern crate fixedbitset;
 use fixedbitset::FixedBitSet;
 
@@ -239,25 +241,33 @@ impl Universe {
     }
 
     pub fn tick(&mut self) {
-        let mut next = self.cells.clone();
+        let _timer = Timer::new("Universe::tick");
+        let mut next = {
+            let _timer =  Timer::new("allocate next cells");
+            self.cells.clone()
+        };
         
-        for row in 0..self.height {
-            for col in 0..self.width {
-                let idx = self.get_index(row, col);
-                let cell = self.cells[idx];
-                let live_neighbors = self.live_neighbot_count(row, col);
-
-                
-                next.set(idx,match(cell, live_neighbors) {
-                    (true, x) if x < 2 => false,
-                    (true, 2) | (true, 3) => true,
-                    (true, x) if x > 3 => false,
-                    (false, 3) => true,
-                    (otherwise, _) => otherwise,
-                });
+        {
+            let _timer =  Timer::new("new gen");
+            for row in 0..self.height {
+                for col in 0..self.width {
+                    let idx = self.get_index(row, col);
+                    let cell = self.cells[idx];
+                    let live_neighbors = self.live_neighbot_count(row, col);
+    
+                    
+                    next.set(idx,match(cell, live_neighbors) {
+                        (true, x) if x < 2 => false,
+                        (true, 2) | (true, 3) => true,
+                        (true, x) if x > 3 => false,
+                        (false, 3) => true,
+                        (otherwise, _) => otherwise,
+                    });
+                }
             }
         }
         
+        let _timer = Timer::new("free old cells");
         self.cells = next;
     }
 
@@ -372,3 +382,21 @@ impl Universe {
     }
 }
 
+
+
+pub struct Timer<'a> {
+    name: &'a str,
+}
+
+impl<'a> Timer<'a> {
+    pub fn new(name: &'a str) -> Timer <'a> {
+        console::time_with_label(name);
+        Timer { name }
+    }
+}
+
+impl<'a> Drop for Timer<'a> {
+    fn drop(&mut self) {
+        console::time_end_with_label(self.name);
+    }
+}

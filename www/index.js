@@ -215,15 +215,28 @@ const drawCells = () => {
     const  cells = new Uint8Array(memory.buffer, cellsPtr, width * height / 8);
 
     ctx.beginPath();
-
+    ctx.fillStyle = ALIVE_COLOR;
     for (let row =  0; row < height; row++) {
         for (let col = 0; col < width; col++) {
            const idx = getIndex(row, col);
-           
-           ctx.fillStyle = bitIsSet(idx, cells)
-           ? ALIVE_COLOR
-           : DEAD_COLOR;
-
+           if (!bitIsSet(idx,cells)) {
+            continue;
+           }
+            ctx.fillRect(
+                col * (CELL_SIZE + 1) + 1,
+                row * (CELL_SIZE + 1) + 1,
+                CELL_SIZE,
+                CELL_SIZE
+            );
+        }
+    }
+    ctx.fillStyle = DEAD_COLOR;
+    for (let row = 0; row < height; row++){
+        for(let col = 0; col < width; col++) {
+            const idx = getIndex(row, col);
+            if(bitIsSet(idx, cells)){
+                continue;
+            }
             ctx.fillRect(
                 col * (CELL_SIZE + 1) + 1,
                 row * (CELL_SIZE + 1) + 1,
@@ -240,8 +253,10 @@ const drawCells = () => {
 const renderLoop = () => {
     fps.render();
     if ( frameCount >= Math.ceil(parseInt(speedControl.value) / 4) ) {
-        universe.tick();
-        frameCount=1;
+        for (let i=0; i<9; i++){
+            universe.tick();
+            frameCount=1;
+        }
     }else {
         frameCount++;
     }
